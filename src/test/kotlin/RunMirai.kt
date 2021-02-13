@@ -1,20 +1,17 @@
-package org.example.mirai.plugin
+package com.hykhd.mirai.plugin
 
 import net.mamoe.mirai.alsoLogin
 import net.mamoe.mirai.console.MiraiConsole
 import net.mamoe.mirai.console.plugin.PluginManager.INSTANCE.enable
 import net.mamoe.mirai.console.plugin.PluginManager.INSTANCE.load
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader
+import net.mamoe.mirai.utils.BotConfiguration.MiraiProtocol.ANDROID_PAD
 
 suspend fun main() {
     MiraiConsoleTerminalLoader.startAsDaemon()
 
-    PluginMain.load()
-    PluginMain.enable()
-
-    val bot = MiraiConsole.addBot(123456, "") {
-        fileBasedDeviceInfo()
-    }.alsoLogin()
+    DanBot.load()
+    DanBot.enable()
 
     MiraiConsole.job.join()
 }
