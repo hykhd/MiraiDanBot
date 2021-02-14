@@ -18,8 +18,10 @@ class Repeater(groupNum: Long) {
             flag = true
         last2Message = lastMessage
         lastMessage = message
-
-        DanBot.logger.info("last2Message:" + last2Message + " lastMessage:" + lastMessage)
+        val rnds = (0..100).random()
+        if(rnds == 1)
+            flag = true
+//        DanBot.logger.info("last2Message:" + last2Message + " lastMessage:" + lastMessage)
         return flag
     }
 
