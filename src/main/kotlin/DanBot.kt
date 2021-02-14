@@ -3,36 +3,31 @@ package com.hykhd.mirai.plugin
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
 import net.mamoe.mirai.event.events.FriendMessageEvent
-import net.mamoe.mirai.event.events.GroupMessageEvent
 import net.mamoe.mirai.event.globalEventChannel
-import net.mamoe.mirai.message.data.FlashImage
-import net.mamoe.mirai.message.data.findIsInstance
-import net.mamoe.mirai.message.data.getValue
 import net.mamoe.mirai.utils.info
-import java.util.*
+
+
+const val ID = "com.hykhd.mirai.danbot"
+const val VERSION = "0.1.0"
+const val NAME = "MiraiDanBotPlugin"
+const val AUTHOR = "hykhd"
 
 object DanBot : KotlinPlugin(
     JvmPluginDescription(
-        id = "com.hykhd.mirai.plugin",
-        name = "DanBot",
-        version = "0.1.0"
-    )
+        id = ID,
+        version = VERSION
+    ){
+        name(NAME)
+        author(AUTHOR)
+    }
 ) {
-    var RepeaterMap = TreeMap<Long, Repeater>()
     override fun onEnable() {
         logger.info { "DanBot loaded" }
         globalEventChannel().subscribeAlways<FriendMessageEvent> {
             sender.sendMessage(message)
         }
-        globalEventChannel().subscribeAlways<GroupMessageEvent> {
-            val repeater = RepeaterMap.getOrPut(group.id) { Repeater(group.id) }
-            if (repeater.isRepeat(message = message.serializeToMiraiCode())) {
-                group.sendMessage(message)
-            }
 
-            message.findIsInstance<FlashImage>()?.let { group.sendMessage(it.image) }
-
-        }
+        globalEventChannel().registerListenerHost(GroupEvent)
     }
 
 }
