@@ -54,18 +54,19 @@ jobs:
           echo 'It is not ready for daily use and we do not guarantee its usability.' >> ReleaseNotes.md
           echo '### The latest five updates are:' >> ReleaseNotes.md
           git log -"5" --format="- %H %s" | sed '/^$/d' >> ReleaseNotes.md
-        - name: Delete Old Prerelease
-          uses: dev-drprasad/delete-tag-and-release@v0.1.2
-          with:
-            tag_name: alpha
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-        - name: Publish GitHub Release
-          uses: ncipollo/release-action@v1
-          with:
-            prerelease: true
-            bodyFile: ReleaseNotes.md
-            artifacts: "${{ env.BUILD_OUTPUT }}/*.jar"
-            tag: "alpha"
-            token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Delete Old Prerelease
+        uses: dev-drprasad/delete-tag-and-release@v0.1.2
+        with:
+          tag_name: alpha
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          prerelease: true
+          bodyFile: ReleaseNotes.md
+          artifacts: "${{ env.BUILD_OUTPUT }}/*.jar"
+          tag: "alpha"
+          token: ${{ secrets.GITHUB_TOKEN }}
